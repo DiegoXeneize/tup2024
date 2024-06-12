@@ -126,6 +126,107 @@ public class ClienteServiceTest {
     }
 
     //Agregar una CA$ y CC$ --> success 2 cuentas, titular peperino
+
+    @Test
+    public void testAgregarCAyCCaUnMismoCliente() throws TipoCuentaAlreadyExistsException {
+        Cliente pepeRino = new Cliente();
+        pepeRino.setDni(1234567);
+        pepeRino.setNombre("Pepe");
+        pepeRino.setApellido("Rino");
+        pepeRino.setFechaNacimiento(LocalDate.of(2000, 9,30));
+        pepeRino.setTipoPersona(TipoPersona.PERSONA_FISICA);
+        Cuenta cuenta = new Cuenta()
+                .setMoneda(TipoMoneda.PESOS)
+                .setBalance(100000)
+                .setTipoCuenta(TipoCuenta.CAJA_AHORRO);
+
+        Cuenta cuenta1 = new Cuenta()
+                .setMoneda(TipoMoneda.PESOS)
+                .setBalance(150000)
+                .setTipoCuenta(TipoCuenta.CUENTA_CORRIENTE);
+
+        when(clienteDao.find(1234567, true)).thenReturn(pepeRino);
+
+        clienteService.agregarCuenta(cuenta, pepeRino.getDni());
+        clienteService.agregarCuenta(cuenta1, pepeRino.getDni());
+
+        //Verificamos que peperino tenga 2 cuentas
+        assertEquals(2, pepeRino.getCuentas().size());
+        assertTrue(pepeRino.getCuentas().contains(cuenta));
+        assertTrue(pepeRino.getCuentas().contains(cuenta1));
+
+    }
+
+
     //Agregar una CA$ y CAU$S --> success 2 cuentas, titular peperino...
+
+    @Test
+    public void testAgregarCAPesosyCADolaresAUnMismoCliente() throws TipoCuentaAlreadyExistsException {
+        Cliente pepeRino = new Cliente();
+        pepeRino.setDni(1234567);
+        pepeRino.setNombre("Pepe");
+        pepeRino.setApellido("Rino");
+        pepeRino.setFechaNacimiento(LocalDate.of(2000, 9,30));
+        pepeRino.setTipoPersona(TipoPersona.PERSONA_FISICA);
+
+        Cuenta cuenta = new Cuenta()
+                .setMoneda(TipoMoneda.PESOS)
+                .setBalance(100000)
+                .setTipoCuenta(TipoCuenta.CAJA_AHORRO);
+
+        Cuenta cuenta1 = new Cuenta()
+                .setMoneda(TipoMoneda.DOLARES)
+                .setBalance(150000)
+                .setTipoCuenta(TipoCuenta.CAJA_AHORRO);
+
+        when(clienteDao.find(1234567, true)).thenReturn(pepeRino);
+
+        clienteService.agregarCuenta(cuenta, pepeRino.getDni());
+        clienteService.agregarCuenta(cuenta1, pepeRino.getDni());
+
+        assertEquals(2, pepeRino.getCuentas().size());
+        assertTrue(pepeRino.getCuentas().contains(cuenta));
+        assertTrue(pepeRino.getCuentas().contains(cuenta1));
+
+    }
+
     //Testear clienteService.buscarPorDni
+
+    @Test
+    public void testClienteServiceBuscarPorDniSuccess(){
+        Cliente pepeRino = new Cliente();
+        pepeRino.setDni(1234567);
+        pepeRino.setNombre("Pepe");
+        pepeRino.setApellido("Rino");
+        pepeRino.setFechaNacimiento(LocalDate.of(2000, 9,30));
+        pepeRino.setTipoPersona(TipoPersona.PERSONA_FISICA);
+
+        when(clienteDao.find(1234567, true)).thenReturn(pepeRino);
+
+        Cliente resultado = clienteService.buscarClientePorDni(1234567);
+
+        assertNotNull(resultado);
+        assertEquals(pepeRino.getDni(), resultado.getDni());
+        assertEquals(pepeRino.getNombre(), resultado.getNombre());
+        assertEquals(pepeRino.getApellido(), resultado.getApellido());
+
+    }
+
+    @Test
+    public void testClienteServiceBuscarPorDniFail(){
+        Cliente pepeRino = new Cliente();
+        pepeRino.setDni(1234567);
+        pepeRino.setNombre("Pepe");
+        pepeRino.setApellido("Rino");
+        pepeRino.setFechaNacimiento(LocalDate.of(2000, 9,30));
+        pepeRino.setTipoPersona(TipoPersona.PERSONA_FISICA);
+
+        when(clienteDao.find(1234567, true)).thenReturn(null);
+
+        assertThrows(IllegalArgumentException.class, () -> clienteService.buscarClientePorDni(1234567));
+
+    }
+
+
+
 }
