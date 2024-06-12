@@ -89,7 +89,7 @@ public class CuentaServiceTest {
         cuentaService.darDeAltaCuenta(cuentaExistente, 123456L);
 
         when(cuentaDao.find(cuentaExistente.getNumeroCuenta())).thenReturn(cuentaExistente);
-        //Inficamos que cuando llamemos al metodo getCuentas el mock devuelve una lista con el objeto cuentaExistent
+        //Inficamos que cuando llamemos al metodo getCuentas el mock devuelve una lista con el objeto cuentaExistentee
         when(cuentaDao.getCuentasByCliente(cliente.getDni())).thenReturn(Arrays.asList(cuentaExistente));
 
         Cuenta cuenta2 = new Cuenta();
