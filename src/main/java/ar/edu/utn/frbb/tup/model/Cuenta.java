@@ -1,12 +1,14 @@
 package ar.edu.utn.frbb.tup.model;
 
+import ar.edu.utn.frbb.tup.model.exception.TipoCuentaAlreadyExistsException;
+
 import java.time.LocalDateTime;
 import java.util.Random;
 
 public class Cuenta {
     private long numeroCuenta;
     LocalDateTime fechaCreacion;
-    int balance;
+    double balance;
     TipoCuenta tipoCuenta;
     Cliente titular;
     TipoMoneda moneda;
@@ -54,22 +56,22 @@ public class Cuenta {
         return this;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public Cuenta setBalance(int balance) {
+    public Cuenta setBalance(double balance) {
         this.balance = balance;
         return this;
     }
 
-    public void debitarDeCuenta(int cantidadADebitar) throws NoAlcanzaException, CantidadNegativaException {
+    public void debitarDeCuenta(int cantidadADebitar) throws TipoCuentaAlreadyExistsException.NoAlcanzaException, TipoCuentaAlreadyExistsException.CantidadNegativaException {
         if (cantidadADebitar < 0) {
-            throw new CantidadNegativaException();
+            throw new TipoCuentaAlreadyExistsException.CantidadNegativaException();
         }
 
         if (balance < cantidadADebitar) {
-            throw new NoAlcanzaException();
+            throw new TipoCuentaAlreadyExistsException.NoAlcanzaException();
         }
         this.balance = this.balance - cantidadADebitar;
     }
@@ -84,6 +86,11 @@ public class Cuenta {
 
     public long getNumeroCuenta() {
         return numeroCuenta;
+    }
+
+    @Override
+    public String toString() {
+        return "Número de cuenta: " + numeroCuenta;
     }
 
 

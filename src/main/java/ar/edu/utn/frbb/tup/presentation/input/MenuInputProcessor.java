@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Component
-public class MenuInputProcessor extends BaseInputProcessor{
+public class MenuInputProcessor extends BaseInputProcessor {
 
     ClienteInputProcessor clienteInputProcessor;
     CuentaInputProcessor cuentaInputProcessor;
@@ -17,7 +17,8 @@ public class MenuInputProcessor extends BaseInputProcessor{
 
     boolean exit = false;
 
-    public MenuInputProcessor(ClienteInputProcessor clienteInputProcessor, CuentaInputProcessor cuentaInputProcessor, ShowInfoCliente showInfoCliente) {
+    public MenuInputProcessor(ClienteInputProcessor clienteInputProcessor, CuentaInputProcessor cuentaInputProcessor,
+                              ShowInfoCliente showInfoCliente) {
         this.clienteInputProcessor = clienteInputProcessor;
         this.cuentaInputProcessor = cuentaInputProcessor;
         this.showInfoCliente = showInfoCliente;
@@ -43,11 +44,11 @@ public class MenuInputProcessor extends BaseInputProcessor{
                     clienteInputProcessor.altaCliente();
                     break;
                 case 2:
-                    cuentaInputProcessor.altaCuenta();
+                    // cuentaInputProcessor.altaCuenta();
                     break;
-//            case 3:
-//                performTransaction();
-//                break;
+                // case 3:
+                // performTransaction();
+                // break;
                 case 4:
                     System.out.println("Ingrese el dni del usuario que quiere mostrar: ");
                     long dni = Long.parseLong(scanner.nextLine());

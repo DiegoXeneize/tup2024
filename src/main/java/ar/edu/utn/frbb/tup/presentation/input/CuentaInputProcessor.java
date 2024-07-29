@@ -10,6 +10,7 @@ import ar.edu.utn.frbb.tup.model.exception.TipoCuentaAlreadyExistsException;
 import ar.edu.utn.frbb.tup.persistence.CuentaDao;
 import ar.edu.utn.frbb.tup.service.ClienteService;
 import ar.edu.utn.frbb.tup.service.CuentaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -17,10 +18,14 @@ import java.util.Scanner;
 
 @Component
 public class CuentaInputProcessor extends BaseInputProcessor{
+    @Autowired
     ClienteService clienteService;
+    @Autowired
     CuentaService cuentaService = new CuentaService();
+    @Autowired
     CuentaDao cuentaDao = new CuentaDao();
     Scanner scanner = new Scanner(System.in);
+
 
     public CuentaInputProcessor(ClienteService clienteService) {
         this.clienteService = clienteService;

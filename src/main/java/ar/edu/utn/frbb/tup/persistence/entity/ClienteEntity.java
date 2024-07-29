@@ -12,6 +12,7 @@ import java.util.List;
 
 public class ClienteEntity extends BaseEntity {
 
+    private final String banco;
     private final String tipoPersona;
     private final String nombre;
     private final String apellido;
@@ -26,14 +27,14 @@ public class ClienteEntity extends BaseEntity {
         this.apellido = cliente.getApellido();
         this.fechaAlta = cliente.getFechaAlta();
         this.fechaNacimiento = cliente.getFechaNacimiento();
+        this.banco = cliente.getBanco();// + Added
         this.cuentas = new ArrayList<>();
         if (cliente.getCuentas() != null && !cliente.getCuentas().isEmpty()) {
-            for (Cuenta c: cliente.getCuentas()) {
+            for (Cuenta c : cliente.getCuentas()) {
                 cuentas.add(c.getNumeroCuenta());
             }
         }
     }
-
 
     public Cliente toCliente() {
         Cliente cliente = new Cliente();
@@ -43,6 +44,7 @@ public class ClienteEntity extends BaseEntity {
         cliente.setTipoPersona(TipoPersona.fromString(this.tipoPersona));
         cliente.setFechaAlta(this.fechaAlta);
         cliente.setFechaNacimiento(this.fechaNacimiento);
+        cliente.setBanco(this.banco);// + Added
 
         return cliente;
     }
